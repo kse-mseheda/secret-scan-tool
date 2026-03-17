@@ -1,0 +1,103 @@
+[
+  {
+    "id": "aws-access-token",
+    "description": "AWS Access Key ID",
+    "regex": "\\b((?:A3T[A-Z0-9]|AKIA|ASIA|ABIA|ACCA)[A-Z2-7]{16})\\b",
+    "keywords": ["A3T", "AKIA", "ASIA", "ABIA", "ACCA"],
+    "entropy": 3.8
+  },
+  {
+    "id": "github-pat",
+    "description": "GitHub Personal Access Token",
+    "regex": "\\bghp_[A-Za-z0-9]{36}\\b",
+    "keywords": ["ghp_"],
+    "entropy": 3.0
+  },
+  {
+    "id": "github-oauth",
+    "description": "GitHub OAuth Access Token",
+    "regex": "\\bgho_[A-Za-z0-9]{36}\\b",
+    "keywords": ["gho_"],
+    "entropy": 3.0
+  },
+  {
+    "id": "github-fine-grained-pat",
+    "description": "GitHub Fine-Grained Personal Access Token",
+    "regex": "\\bgithub_pat_[A-Za-z0-9_]{82}\\b",
+    "keywords": ["github_pat_"],
+    "entropy": 3.0
+  },
+  {
+    "id": "gitlab-pat",
+    "description": "GitLab Personal Access Token",
+    "regex": "\\bglpat-[A-Za-z0-9\\-_]{20}\\b",
+    "keywords": ["glpat-"],
+    "entropy": 3.0
+  },
+  {
+    "id": "slack-bot-token",
+    "description": "Slack Bot Token",
+    "regex": "\\bxoxb-[0-9]{10,13}-[0-9]{10,13}-[a-zA-Z0-9]{24}\\b",
+    "keywords": ["xoxb-"],
+    "entropy": 3.0
+  },
+  {
+    "id": "slack-webhook",
+    "description": "Slack Webhook URL",
+    "regex": "https://hooks\\.slack\\.com/services/T[A-Z0-9]{8,}/B[A-Z0-9]{8,}/[a-zA-Z0-9]{24}",
+    "keywords": ["hooks.slack.com"]
+  },
+  {
+    "id": "stripe-secret-key",
+    "description": "Stripe Secret Key",
+    "regex": "\\b(sk_live_[a-zA-Z0-9]{24,})\\b",
+    "keywords": ["sk_live_"],
+    "entropy": 2.0
+  },
+  {
+    "id": "private-key",
+    "description": "Private Key",
+    "regex": "-----BEGIN (?:RSA |EC |DSA |OPENSSH |PGP )?PRIVATE KEY(?:\\sBLOCK)?-----",
+    "keywords": ["BEGIN", "PRIVATE KEY"]
+  },
+  {
+    "id": "generic-api-key",
+    "description": "Generic API Key",
+    "regex": "(?i)(?:api[_-]?key|api[_-]?secret|access[_-]?key|secret[_-]?key|auth[_-]?token|access[_-]?token|credentials?|password|passwd)[\\s'\"]*(?:=|:|:=|=>)[\\s'\"]*([a-zA-Z0-9/+=_.~-]{16,})",
+    "keywords": [
+      "api_key", "api-key", "apikey", "api_secret", "apisecret",
+      "access_key", "secret_key", "auth_token", "access_token",
+      "credential", "password", "passwd"
+    ],
+    "entropy": 3.5,
+    "secret_group": 1
+  },
+  {
+    "id": "google-api-key",
+    "description": "Google API Key",
+    "regex": "\\bAIza[A-Za-z0-9_\\\\-]{35}\\b",
+    "keywords": ["AIza"],
+    "entropy": 3.0
+  },
+  {
+    "id": "heroku-api-key",
+    "description": "Heroku API Key",
+    "regex": "(?i)heroku[\\w\\s-]*(?:=|:)\\s*['\"]?([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})['\"]?",
+    "keywords": ["heroku"],
+    "secret_group": 1
+  },
+  {
+    "id": "twilio-api-key",
+    "description": "Twilio API Key",
+    "regex": "\\bSK[a-f0-9]{32}\\b",
+    "keywords": ["SK"],
+    "entropy": 3.0
+  },
+  {
+    "id": "jwt",
+    "description": "JSON Web Token",
+    "regex": "\\beyJhbGciOi[A-Za-z0-9_/+\\-]{10,}={0,2}\\b",
+    "keywords": ["eyJhbGciOi"],
+    "entropy": 3.0
+  }
+]

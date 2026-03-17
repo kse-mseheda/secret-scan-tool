@@ -1,0 +1,18 @@
+{
+  "allowlist_paths": [
+    "\\.git/",
+    "node_modules/",
+    "vendor/",
+    "\\.min\\.js$",
+    "package-lock\\.json$",
+    "yarn\\.lock$",
+    "pnpm-lock\\.yaml$",
+    "go\\.sum$",
+    "\\.(?:png|jpg|jpeg|gif|svg|ico|woff2?|eot|ttf|otf|pdf|exe|dll|zip|tar|gz)$"
+  ],
+  "allowlist_stopwords": [
+    "example", "test", "fake", "sample", "placeholder",
+    "EXAMPLE", "XXXX", "0000", "1234",
+    "abcdef", "123456"
+  ]
+}

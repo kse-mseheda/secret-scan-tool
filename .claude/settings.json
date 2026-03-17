@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(./scan.sh)",
+      "Bash(./venv/bin/python -m pytest tests/test_e2e.py -v)",
+      "Bash(./venv/bin/python secret_detect.py tests/test_e2e.py --json)",
+      "Bash(./venv/bin/python secret_detect.py tests/test_e2e.py --create-baseline .secret-baseline.json)",
+      "Bash(./venv/bin/python secret_detect.py tests/test_e2e.py --baseline .secret-baseline.json)",
+      "Bash(./venv/bin/python secret_detect.py test_secrets.txt --baseline .secret-baseline.json)",
+      "Bash(./venv/bin/python -m pytest tests/ -v)",
+      "Bash(./venv/bin/python secret_detect.py test_secrets.txt)",
+      "Bash(./scan.sh tests/test_e2e.py)",
+      "Bash(gh api:*)"
+    ],
+    "additionalDirectories": [
+      "/Users/kot/projects/custom-secret-detect"
+    ]
+  }
+}
