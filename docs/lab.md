@@ -285,7 +285,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      # ... service-specific test steps (go test, npm test, mvn test, etc.) ...
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
 
   docker-build-push:
     needs: test
@@ -311,6 +322,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_PAT }}
       - name: Pull secret scanner
         run: docker pull ghcr.io/<your-org>/custom-secret-detect:latest
       - name: Run secret scan
@@ -321,7 +338,39 @@ jobs:
             /scan/
 ```
 
-### 3.4 Verification Checklist
+### 3.4 Accessing Private Docker Images with Personal Access Token
+
+To access a private Docker image like `ghcr.io/<your-org>/custom-secret-detect:latest` from your repository, you need a Personal Access Token (PAT) with read access to packages. This is necessary because `GITHUB_TOKEN` only works within your own repository and organization — it cannot pull images from a different organization's GHCR.
+
+#### Which Token and Scopes
+
+- Use a **Personal Access Token (classic)**.
+- **Required scope**: `read:packages` — allows reading packages from GHCR.
+
+#### How to Create It (GitHub UI)
+
+1. Go to your GitHub account settings: Click your profile picture → **Settings**.
+2. In the left sidebar, scroll to **Developer settings** → **Personal access tokens** → **Tokens (classic)**.
+3. Click **Generate new token (classic)**.
+4. Give it a name (e.g., `"GHCR Access"`).
+5. Under **Scopes**, check `read:packages`.
+6. Click **Generate token**.
+7. **Copy the token immediately** — it won't be shown again.
+
+#### Add to Your Repository
+
+1. In your repo (`<your-org>/my-app`): Go to **Settings** → **Secrets and variables** → **Actions** → **New repository secret**.
+2. Name: `GHCR_PAT`
+3. Value: Paste the PAT you just copied.
+
+#### Important Notes
+
+- **PAT ownership**: The PAT must be created by an account that has access to your's organization.
+- **Secret reference in workflows**: Use `${{ secrets.GHCR_PAT }}` in your workflow (as shown in the `secret-scan` job above).
+
+---
+
+### 3.5 Verification Checklist
 
 For each repository, verify:
 - [ ] Push to `main` triggers the workflow.
@@ -329,6 +378,7 @@ For each repository, verify:
 - [ ] Docker image is built and pushed to `ghcr.io/<your-org>/<image-name>:<sha>`.
 - [ ] The image is visible at `https://github.com/orgs/<your-org>/packages`.
 - [ ] Secret scan step detects secrets and fails the pipeline if found.
+- [ ] Since the workflow runs on `self-hosted` runners, ensure the runner exists, is valid, and is running at the time of execution.
 
 ---
 
