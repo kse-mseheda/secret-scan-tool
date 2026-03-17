@@ -386,9 +386,25 @@ A credential was accidentally committed to the repository and needs to be remove
 
 ---
 
+## Bonus: Multithreaded Scanning (+2 points)
+
+Implement multithreaded file scanning using the **producer/consumer** pattern:
+
+- **Producer**: walks the directory tree and places file paths into a shared queue.
+- **Consumers**: a pool of worker threads that pull file paths from the queue and scan each file for secrets.
+
+Requirements:
+- Use `threading` and `queue.Queue` from the Python standard library.
+- The number of worker threads should be configurable via a `--threads N` CLI argument (default: 4).
+- Results must be collected thread-safely and output must remain identical to the single-threaded version.
+- Add tests verifying that multithreaded scanning produces the same findings as single-threaded scanning.
+
+---
+
 ## Deliverables
 
 - [ ] Written answers to the analysis questions in Parts 1 and 2.
 - [ ] `custom-secret-detect` Docker image automatically built and pushed to GHCR via `docker-build.yaml`.
 - [ ] At least one microservice repository reusing `docker-build.yaml` for Docker build/push and running secret scanning in CI.
 - [ ] Demonstration of Git history sanitization with verification.
+- [ ] *(Bonus, +2 points)* Multithreaded scanning with producer/consumer pattern and tests.
